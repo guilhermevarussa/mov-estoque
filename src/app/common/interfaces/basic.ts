@@ -5,3 +5,13 @@ export interface BasicResponse<T> {
   totalItemsCount: number
   maximumItemsPerPageCount: number
 }
+
+
+export interface TableItem {
+  key: string;
+  element: string | undefined;
+  quantity: number;
+  unit: string;
+  amount: number;
+  currency: string;
+}

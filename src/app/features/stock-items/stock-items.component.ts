@@ -9,6 +9,9 @@ import {
   StockItemFilter,
   StockItemFindAllRequest
 } from '../../modules/stock-items/core/types'
+import { ElementService } from '../../modules/elements/core/service'
+import { Element, ElementFilter, ElementFindAllResponse } from '../../modules/elements/core/types'
+import { TableItem } from '../../common/interfaces/basic'
 
 @Component({
   selector: 'app-stock-items',
@@ -28,30 +31,72 @@ export class StockItemsComponent implements OnInit {
     sortDescending: true
   }
 
+  initialElementFilter: ElementFilter = {
+    requiredPageNumber: 1,
+    maximumItemsPerPageCount: 200,
+    elementKeys: [],
+    sortDescending: true
+  }
+
   stockIems: StockItem[] = []
+  elements: Element[] = []
+
+  tableItems: TableItem[] = []
+  
 
   @Input() locationKey!: string
 
-  constructor (private stockItemsService: StockItemService) {}
+  constructor (private stockItemsService: StockItemService, private elementService:ElementService) {}
 
   ngOnInit (): void {
-
     this.getStockItemsByFilters(this.initialFilter)
+    this.getElement(this.initialElementFilter)
   }
 
   getStockItemsByFilters (filter: StockItemFilter) {
     if (this.locationKey) {
       filter.locationKey = this.locationKey
     }
-
     this.stockItemsService.stockeItemsFilter(filter).subscribe({
       next: (response: StockItemFindAllRequest) => {
+        console.log(response)
         this.stockIems = response.items
-        console.log(this.stockIems)
+        this.buildTableItems(); 
       },
       error: error => {
         console.error(error)
       }
     })
   }
+
+  getElement(filters:ElementFilter) {
+    this.elementService.filterElements(filters).subscribe({
+      next: (response:ElementFindAllResponse) => {
+        console.log(response)
+        this.elements = response.items
+        this.buildTableItems()
+      },
+      error: error => {
+        console.error(error)
+      }
+    })
+  }
+
+
+  buildTableItems() {
+    this.tableItems = []
+    this.stockIems.forEach(item => {
+      const element = this.elements.find(element => element.key === item.elementKey)
+      this.tableItems.push({
+        key: item.key,
+        element: element?.name ? element.name : 'Nome não informado',
+        quantity: item.quantity.magnitude,
+        unit: item.quantity.unit,
+        amount: item.amount.amount,
+        currency: item.amount.currencyCode
+      })
+    })
+  }
+
+
 }

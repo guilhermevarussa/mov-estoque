@@ -43,7 +43,6 @@ export class StockLocationsComponent implements OnInit {
     this.stockLocationService.filterStockLocations(filterData).subscribe({
       next: (response: StockLocationFindAllResponse) => {
         this.stockLotations = response.items
-        console.log(this.stockLotations)
       },
       error: error => {
         console.error(error)
