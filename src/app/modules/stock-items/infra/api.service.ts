@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { StockItem, StockItemFilter } from '../core/types';
+import { StockItem, StockItemFilter, StockItemFindAllRequest } from '../core/types';
+import { StockItemService } from '../core/service';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class StockItemApiService {
+@Injectable()
+export class StockItemApiService implements StockItemService {
 
   constructor(private httpClient:HttpClient) { }
 
@@ -15,8 +14,8 @@ export class StockItemApiService {
     return this.httpClient.get<StockItem>(`/pub/v1/stock-items/stockItem::${stockItemKek}`);
   }
 
-  stockeItemsFilter(filterItens:StockItemFilter):Observable<StockItem> {
-    return this.httpClient.post<StockItem>(`/pub/v1/stock-items/filter`,filterItens);
+  stockeItemsFilter(filterItens:StockItemFilter):Observable<StockItemFindAllRequest> {
+    return this.httpClient.post<StockItemFindAllRequest>(`/pub/v1/stock-items/filter`,filterItens);
   }
 
 

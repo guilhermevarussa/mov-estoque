@@ -9,12 +9,12 @@ import { ButtonModule } from 'primeng/button'
 import { CommonModule } from '@angular/common'
 import { RatingModule } from 'primeng/rating'
 import { TableModule, TableRowExpandEvent } from 'primeng/table'
-import { icons } from '../../icons-provider'
+import { StockItemsComponent } from '../stock-items/stock-items.component'
 
 @Component({
   selector: 'app-stock-locations',
   standalone: true,
-  imports: [TableModule, RatingModule, ButtonModule, CommonModule],
+  imports: [TableModule, RatingModule, ButtonModule, CommonModule,StockItemsComponent],
   templateUrl: './stock-locations.component.html',
   styleUrl: './stock-locations.component.scss'
 })
@@ -28,17 +28,22 @@ export class StockLocationsComponent implements OnInit {
     sortDescending: true
   }
 
-  stockLotations:StockLocation[] = []
+  stockLotations: StockLocation[] = []
+
+  stockLocationKey:string = ''
+
+  expandedRow: { [key: string]: boolean } = {}
 
   ngOnInit (): void {
     this.getStockLocations(this.initFilter)
+    console.log(this.stockLocationKey)
   }
 
   getStockLocations (filterData: StockLocationFilter) {
     this.stockLocationService.filterStockLocations(filterData).subscribe({
       next: (response: StockLocationFindAllResponse) => {
         this.stockLotations = response.items
-        console.log(this.stockLotations)        
+        console.log(this.stockLotations)
       },
       error: error => {
         console.error(error)
@@ -46,15 +51,13 @@ export class StockLocationsComponent implements OnInit {
     })
   }
 
-
-  onRowExpand(event:TableRowExpandEvent) {
-    return true
-    
+  onRowExpand (event: any): void {
+    this.expandedRow = {} 
+    this.expandedRow[event.data.key] = true
+    this.stockLocationKey = event.data.key   
   }
 
-
-  onRowCollapse(event:TableRowExpandEvent) {
-    return false
-}
-
+  onRowCollapse (event: any): void {
+    delete this.expandedRow[event.data.key]
+  }
 }

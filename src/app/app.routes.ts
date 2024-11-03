@@ -7,7 +7,7 @@ export const routes: Routes = [
     path: '',
     children: [
       {
-        path: '',
+        path: 'produtos',
         component: ElementsComponent,
       },
       {

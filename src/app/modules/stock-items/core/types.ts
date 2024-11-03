@@ -1,3 +1,5 @@
+import { BasicResponse } from "../../../common/interfaces/basic";
+
 export interface StockItem {
     key: string;
     elementKey: string;
@@ -23,6 +25,6 @@ export interface StockItemFilter {
   sortDescending: boolean;
 }
 
-export interface StockItemFindAllRequest extends StockItemFilter {}
+export interface StockItemFindAllRequest extends BasicResponse<StockItem> {}
 
 export interface StockItemFindAllResponse extends StockItem {}

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { StockItem, StockItemFilter } from './types'
+import { StockItem, StockItemFilter, StockItemFindAllRequest } from './types'
 import { StockItemApiService } from '../infra/api.service'
 
 @Injectable({
@@ -10,8 +10,8 @@ import { StockItemApiService } from '../infra/api.service'
 export abstract class StockItemService {
   constructor () {}
 
-  abstract getFarms(stockItemKek: string): Observable<StockItem>
-  abstract stockeItemsFilter(
-    filterItens: StockItemFilter
-  ): Observable<StockItemFilter>
+  abstract getStockItems(stockItemKek:string):Observable<StockItem>
+  
+  
+  abstract stockeItemsFilter(filterItens:StockItemFilter):Observable<StockItemFindAllRequest>
 }
