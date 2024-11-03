@@ -10,13 +10,22 @@ import {
   StockItemFindAllRequest
 } from '../../modules/stock-items/core/types'
 import { ElementService } from '../../modules/elements/core/service'
-import { Element, ElementFilter, ElementFindAllResponse } from '../../modules/elements/core/types'
+import {
+  Element,
+  ElementFilter,
+  ElementFindAllResponse
+} from '../../modules/elements/core/types'
 import { TableItem } from '../../common/interfaces/basic'
+import { DynamicDialogConfig } from 'primeng/dynamicdialog'
 
 @Component({
   selector: 'app-stock-items',
   standalone: true,
-  imports: [TableModule, RatingModule, ButtonModule, CommonModule],
+  imports: [
+    TableModule,
+    RatingModule,
+    ButtonModule,
+    CommonModule  ],
   templateUrl: './stock-items.component.html',
   styleUrl: './stock-items.component.scss'
 })
@@ -42,11 +51,12 @@ export class StockItemsComponent implements OnInit {
   elements: Element[] = []
 
   tableItems: TableItem[] = []
-  
 
-  @Input() locationKey!: string
-
-  constructor (private stockItemsService: StockItemService, private elementService:ElementService) {}
+  constructor (
+    private stockItemsService: StockItemService,
+    private elementService: ElementService,
+    public stockReference: DynamicDialogConfig
+  ) {}
 
   ngOnInit (): void {
     this.getStockItemsByFilters(this.initialFilter)
@@ -54,14 +64,14 @@ export class StockItemsComponent implements OnInit {
   }
 
   getStockItemsByFilters (filter: StockItemFilter) {
-    if (this.locationKey) {
-      filter.locationKey = this.locationKey
+    if (this.stockReference.data.locationKey) {
+      filter.locationKey = this.stockReference.data.locationKey
     }
     this.stockItemsService.stockeItemsFilter(filter).subscribe({
       next: (response: StockItemFindAllRequest) => {
         console.log(response)
         this.stockIems = response.items
-        this.buildTableItems(); 
+        this.buildTableItems()
       },
       error: error => {
         console.error(error)
@@ -69,9 +79,9 @@ export class StockItemsComponent implements OnInit {
     })
   }
 
-  getElement(filters:ElementFilter) {
+  getElement (filters: ElementFilter) {
     this.elementService.filterElements(filters).subscribe({
-      next: (response:ElementFindAllResponse) => {
+      next: (response: ElementFindAllResponse) => {
         console.log(response)
         this.elements = response.items
         this.buildTableItems()
@@ -82,11 +92,12 @@ export class StockItemsComponent implements OnInit {
     })
   }
 
-
-  buildTableItems() {
+  buildTableItems () {
     this.tableItems = []
     this.stockIems.forEach(item => {
-      const element = this.elements.find(element => element.key === item.elementKey)
+      const element = this.elements.find(
+        element => element.key === item.elementKey
+      )
       this.tableItems.push({
         key: item.key,
         element: element?.name ? element.name : 'Nome não informado',
@@ -97,6 +108,4 @@ export class StockItemsComponent implements OnInit {
       })
     })
   }
-
-
 }

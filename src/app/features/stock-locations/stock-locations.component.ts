@@ -8,18 +8,20 @@ import {
 import { ButtonModule } from 'primeng/button'
 import { CommonModule } from '@angular/common'
 import { RatingModule } from 'primeng/rating'
-import { TableModule, TableRowExpandEvent } from 'primeng/table'
+import { TableModule } from 'primeng/table'
 import { StockItemsComponent } from '../stock-items/stock-items.component'
+import { DialogService, DynamicDialogRef} from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-stock-locations',
   standalone: true,
   imports: [TableModule, RatingModule, ButtonModule, CommonModule,StockItemsComponent],
+  providers: [DialogService],
   templateUrl: './stock-locations.component.html',
   styleUrl: './stock-locations.component.scss'
 })
 export class StockLocationsComponent implements OnInit {
-  constructor (private stockLocationService: StockLocationService) {}
+  constructor (private stockLocationService: StockLocationService,public dialogService: DialogService) {}
 
   initFilter: StockLocationFilter = {
     requiredPageNumber: 2,
@@ -30,13 +32,10 @@ export class StockLocationsComponent implements OnInit {
 
   stockLotations: StockLocation[] = []
 
-  stockLocationKey:string = ''
-
-  expandedRow: { [key: string]: boolean } = {}
+  ref: DynamicDialogRef | undefined
 
   ngOnInit (): void {
     this.getStockLocations(this.initFilter)
-    console.log(this.stockLocationKey)
   }
 
   getStockLocations (filterData: StockLocationFilter) {
@@ -50,13 +49,22 @@ export class StockLocationsComponent implements OnInit {
     })
   }
 
-  onRowExpand (event: any): void {
-    this.expandedRow = {} 
-    this.expandedRow[event.data.key] = true
-    this.stockLocationKey = event.data.key   
+  openStockDialog(stockLocation:StockLocation) {
+    const ref = this.dialogService.open(StockItemsComponent, {
+      header:`Estoque disponível em ${stockLocation.name}`,
+      width: '80%',
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000,
+      maximizable: true,
+      data: {
+        locationKey: stockLocation.key
+      }
+    })
   }
 
-  onRowCollapse (event: any): void {
-    delete this.expandedRow[event.data.key]
-  }
+
+ openAddStockDialog() {}
+ 
+ openRemoveStockDialog() {}
+
 }
