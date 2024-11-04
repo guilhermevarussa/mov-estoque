@@ -1,0 +1,55 @@
+<form [formGroup]="addMovForm" (ngSubmit)="onSubmit()">
+    <div class="card p-fluid">
+      <div class="p-grid">
+        <!-- Primeira linha com três colunas -->
+       
+        <div class="p-col-12 p-md-4" formGroupName="quantity">
+          <div class="p-field">
+            <label for="unit">Unidade</label>
+            <input id="unit" pInputText formControlName="unit" />
+          </div>
+        </div>
+        <div class="p-col-12 p-md-4" formGroupName="quantity">
+          <div class="p-field">
+            <label for="magnitude">Quantidade</label>
+            <input id="magnitude" pInputText formControlName="magnitude" type="number" />
+          </div>
+        </div>
+  
+        <!-- Segunda linha com três colunas -->
+        <div class="p-col-12 p-md-4" formGroupName="amount">
+          <div class="p-field">
+            <label for="currencyCode">Código da Moeda</label>
+            <input id="currencyCode" pInputText formControlName="currencyCode" />
+          </div>
+        </div>
+        <div class="p-col-12 p-md-4" formGroupName="amount">
+          <div class="p-field">
+            <label for="amount">Valor</label>
+            <input id="amount" pInputText formControlName="amount" type="number" />
+          </div>
+        </div>
+  
+        <!-- Linha com o campo de data sozinho -->
+        <div class="p-col-12">
+          <div class="p-field">
+            <label for="occurrenceDate">Data de Ocorrência</label>
+            <p-calendar id="occurrenceDate" formControlName="occurrenceDate" dateFormat="yy-mm-dd"></p-calendar>
+          </div>
+        </div>
+  
+        <!-- Linha com o campo de observações sozinho -->
+        <div class="p-col-12">
+          <div class="p-field">
+            <label for="observations">Observações</label>
+            <input id="observations" pInputText formControlName="observations" />
+          </div>
+        </div>
+  
+        <!-- Botão de submissão -->
+        <div class="p-col-12">
+          <button pButton type="submit" label="Adicionar Movimento"></button>
+        </div>
+      </div>
+    </div>
+  </form>

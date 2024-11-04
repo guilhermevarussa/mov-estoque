@@ -16,16 +16,13 @@ import {
   ElementFindAllResponse
 } from '../../modules/elements/core/types'
 import { TableItem } from '../../common/interfaces/basic'
-import { DynamicDialogConfig } from 'primeng/dynamicdialog'
+import { DialogService, DynamicDialogConfig } from 'primeng/dynamicdialog'
+import { StockMovComponent } from '../stock-mov/stock-mov.component'
 
 @Component({
   selector: 'app-stock-items',
   standalone: true,
-  imports: [
-    TableModule,
-    RatingModule,
-    ButtonModule,
-    CommonModule  ],
+  imports: [TableModule, RatingModule, ButtonModule, CommonModule],
   templateUrl: './stock-items.component.html',
   styleUrl: './stock-items.component.scss'
 })
@@ -55,7 +52,8 @@ export class StockItemsComponent implements OnInit {
   constructor (
     private stockItemsService: StockItemService,
     private elementService: ElementService,
-    public stockReference: DynamicDialogConfig
+    public stockReference: DynamicDialogConfig,
+    public dialogService: DialogService
   ) {}
 
   ngOnInit (): void {
@@ -101,11 +99,28 @@ export class StockItemsComponent implements OnInit {
       this.tableItems.push({
         key: item.key,
         element: element?.name ? element.name : 'Nome não informado',
+        elementKey: item.elementKey,
         quantity: item.quantity.magnitude,
         unit: item.quantity.unit,
         amount: item.amount.amount,
         currency: item.amount.currencyCode
       })
+    })
+  }
+
+  openStockDialog (item: TableItem) {
+    console.log(item)
+    const ref = this.dialogService.open(StockMovComponent, {
+      header: 'Movimentação de estoque',
+      width: '80%',
+      data: {
+        stockItem: item
+      },
+      contentStyle: { overflow: 'auto' },
+      baseZIndex: 10000
+    })
+    ref.onClose.subscribe(data => {
+      console.log(data)
     })
   }
 }

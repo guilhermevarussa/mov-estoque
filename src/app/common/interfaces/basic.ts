@@ -14,4 +14,5 @@ export interface TableItem {
   unit: string;
   amount: number;
   currency: string;
+  elementKey: string;
 }
