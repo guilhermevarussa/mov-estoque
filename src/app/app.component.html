@@ -7,12 +7,11 @@
     [nzTrigger]="null">
     <div class="sidebar-logo">
       <a href="https://ng.ant.design/" target="_blank">
-        <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo">
         <h1>Aegro Estoque</h1>
       </a>
     </div>
     <ul nz-menu style="background-color:#00c65e;"  nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-submenu nzOpen nzTitle="Dashboard" nzIcon="dashboard">
+      <li nz-submenu nzOpen nzTitle="Estoque" nzIcon="box">
         <ul>
           <li nz-menu-item nzMatchRouter>
             <a routerLink="produtos">Produtos</a>
@@ -20,18 +19,10 @@
           <li nz-menu-item nzMatchRouter >
             <a routerLink="locais">Locais de Estoque</a>
           </li>
-          <li nz-menu-item nzMatchRouter>
-            <a>Workplace</a>
-          </li>
+          
         </ul>
       </li>
-      <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
-        <ul>
-          <li nz-menu-item nzMatchRouter>
-            <a>Basic Form</a>
-          </li>
-        </ul>
-      </li>
+      
     </ul>
   </nz-sider>
   <nz-layout>

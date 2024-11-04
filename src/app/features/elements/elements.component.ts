@@ -17,8 +17,8 @@ export class ElementsComponent implements OnInit {
   constructor(private elementService:ElementService) { }
 
   initFilter: ElementFilter = {
-    requiredPageNumber: 1,
-    maximumItemsPerPageCount: 10,
+    requiredPageNumber: 0,
+    maximumItemsPerPageCount: 100,
     elementKeys: [],
     sortDescending: false
   }

@@ -24,8 +24,8 @@ export class StockLocationsComponent implements OnInit {
   constructor (private stockLocationService: StockLocationService,public dialogService: DialogService) {}
 
   initFilter: StockLocationFilter = {
-    requiredPageNumber: 2,
-    maximumItemsPerPageCount: 10,
+    requiredPageNumber: 0,
+    maximumItemsPerPageCount: 100,
     stockLocationKeys: [],
     sortDescending: true
   }

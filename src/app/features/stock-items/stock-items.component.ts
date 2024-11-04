@@ -111,7 +111,7 @@ export class StockItemsComponent implements OnInit {
   openStockDialog (item: TableItem) {
     console.log(item)
     const ref = this.dialogService.open(StockMovComponent, {
-      header: 'Movimentação de estoque',
+      header: `Adicionar ${item.element}`,
       width: '80%',
       data: {
         stockItem: item
